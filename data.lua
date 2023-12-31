@@ -1,8 +1,14 @@
---data.lua 
+--====================================================================================================
+--PRE INIT
+--====================================================================================================
 
-require("prototypes.items.underground-splitter")
---require("prototypes.items.fast-underground-splitter")
---require("prototypes.items.express-underground-splitter")
+-- lib and paths
 
-require("prototypes.recipes.underground-splitter-recipes")
-require("prototypes.technology.underground-splitter-tech")
+require("lib/paths")
+
+--====================================================================================================
+--MAIN CONTENT CODE
+--====================================================================================================
+
+-- add loaders
+require("prototypes.underground-splitter")

@@ -1,9 +1,11 @@
 {
     "name": "underground-splitter",
-    "version": "0.1.0",
-    "title": "Underground Splitter",
-    "author": "MarkOfApproval",
+    "version": "0.0.1",
+    "title": "Underground splitter",
+    "author": "markofapproval",
     "factorio_version": "1.1",
-    "dependencies": ["base >= 1.1"],
-    "description": "This mod adds in single belt width splitters that split underground."
-  }
+    "description": "Adds underground splitters",
+    "dependencies": [
+        "base >= 1.0.0"
+    ]
+}
