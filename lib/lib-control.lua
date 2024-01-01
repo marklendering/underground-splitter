@@ -148,70 +148,31 @@ local loader_like = {
 --     return output, input
 -- end
 
-function underground_splitter_lib.get_inserter_direction(entity, inline)
-    local input =  {x = 0, y = 0} --entity.position --
-    local output =  {x = 0, y = 0} --entity.position --
-    local direction = entity.direction
-
-
---  neg <- X -> pos
--- neg
--- |
--- Y
--- |
--- pos
-
--- north inline( output: x+1,y input: x-1,y) || underground( output: x,y-1, input: x-1,y)
---    oo    --
---    uu    --
--- bb xx bb --
-
---east: inline( output: x,y-1, input: x,y+1 ) || underground( output: x+1,y, input: x,y+1)
--- bb       --
--- xx uu oo --
--- bb       --
-
---south inline( output: x+1,y, input: x-1,y ) || underground( output: x,y+1, input: x-1,y)
--- bb xx bb --
---    uu    --
---    oo    --
-
---west inline( output: x,y-1, input: x,y+1 ) || || underground( output: x-1,y, input: x,y+1)
---       bb --
--- oo uu xx --
---       bb --
-
-
+function underground_splitter_lib.get_inserter_direction(direction, inline)
+    local x = 0
+    local y = 0
     if(inline) then
         if direction == defines.direction.north then
-            output.x = output.x + 1
-            input.x = input.x - 1
+            x = -1
         elseif direction == defines.direction.east then
-            output.y = output.y - 1
-            input.y = input.y + 1
+            y = -1
         elseif direction == defines.direction.south then
-            output.x = output.x + 1
-            input.x = input.x - 1
+            x = 1
         elseif direction == defines.direction.west then
-            output.y = output.y - 1
-            input.y = input.y + 1
+            y = 1
         end
-    else
-        if direction == defines.direction.north then
-            output.y = output.y - 1
-            input.x = input.x - 1
-        elseif direction == defines.direction.east then
-            output.x = output.x + 1
-            input.y = input.y + 1
-        elseif direction == defines.direction.south then
-            output.y = output.y + 1
-            input.x = input.x - 1
-        elseif direction == defines.direction.west then
-            output.x = output.x - 1
-            input.y = input.y + 1
-        end
+    -- else
+    --     if direction == defines.direction.north then
+    --         x = 1
+    --     elseif direction == defines.direction.east then
+    --         y = 1
+    --     elseif direction == defines.direction.south then
+    --         x = -1
+    --     elseif direction == defines.direction.west then
+    --         y = -1
+    --     end
     end
-    return output, input  --{x, y}
+    return {x, y}
 end
 
 
@@ -273,12 +234,12 @@ function underground_splitter_lib.on_built_entity(e)
 		local Y = e.created_entity.position.y
         game.print("splitter on built")
 
-        local insert_pos_inline = underground_splitter_lib.get_inserter_direction(e.created_entity, true)
-        local insert_pos_output = underground_splitter_lib.get_inserter_direction(e.created_entity, false)
+        local insert_pos_inline = underground_splitter_lib.get_inserter_direction(e.created_entity.direction, true)
+        local insert_pos_output = underground_splitter_lib.get_inserter_direction(e.created_entity.direction, false)
         -- local belt_in = s.create_entity{name = "underground-splitter", position = e.created_entity.position, force = e.created_entity.force, direction = defines.direction.east, type="input"}
         local belt_out = s.create_entity{name = "underground-splitter", position = {e.created_entity.position.x + 4, e.created_entity.position.y} , force = e.created_entity.force, direction = defines.direction.east, type="output"}
-        local inserter = s.create_entity{name = "underground-splitter-inserter", position = e.created_entity.position, force= e.created_entity.force, direction=e.created_entity.direction, drop_position = insert_pos_inline.output } --, pickup_position = insert_pos_inline.input
-        local inserter2 = s.create_entity{name = "underground-splitter-inserter", position = e.created_entity.position, force= e.created_entity.force, direction=e.created_entity.direction, drop_position = insert_pos_output.output} --, pickup_position = insert_pos_inline.input
+        local inserter = s.create_entity{name = "underground-splitter-inserter", position = e.created_entity.position, force= e.created_entity.force, direction=e.created_entity.direction, drop_position = {0, -1} , pickup_position = {0, 1} } --insert_pos_inline
+        local inserter2 = s.create_entity{name = "underground-splitter-inserter", position = e.created_entity.position, force= e.created_entity.force, direction=e.created_entity.direction, drop_position = {0, 0} , pickup_position = {0, 1}} --insert_pos_output
     end
 end
 
