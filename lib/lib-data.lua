@@ -63,8 +63,10 @@ function underground_splitter_lib.make_splitter(tier, next_upgrade, belt_animati
     splitter.minable.result = ""..tier.."underground-splitter"
     splitter.speed = speed
     splitter.belt_animation_set = belt_animation_set
+    splitter.collision_mask = {} -- {"floor-layer", "object-layer", "water-tile"}
     splitter.structure.direction_in.sheet.filename = underground_splitter_entity_path..tier.."underground-splitter.png"
     splitter.structure.direction_out.sheet.filename = underground_splitter_entity_path..tier.."underground-splitter.png"
+    splitter.next_upgrade = nil
 
     data:extend({splitter})
 
@@ -77,7 +79,7 @@ function underground_splitter_lib.create_inserters(tier, next_prefix, tint)
     local name = underground_splitter .. "-inserter"
     local next_upgrade = nil --next_upgrade and next_upgrade .. "underground-splitter-inserter"
     local base_entity = data.raw["underground-belt"][underground_splitter]
-    local rounded_items_per_second = math.floor(base_entity.speed * 480 * 100 + 0.5) / 100
+    local rounded_items_per_second = math.floor(base_entity.speed * 480 * 100 + 0.5) / 200
     local description = {"",
       "[font=default-semibold][color=255,230,192]", {"description.belt-speed"}, ":[/color][/font] ",
       rounded_items_per_second, " ", {"description.belt-items"}, {"per-second-suffix"}}
@@ -103,7 +105,7 @@ function underground_splitter_lib.create_inserters(tier, next_prefix, tint)
       },
       extension_speed = 1,
       rotation_speed = 0.5,
-      fast_replaceable_group = "miniloader-inserter",
+      fast_replaceable_group = "underground-splitter-inserter",
       pickup_position = {0, 0},
       insert_position = {0, 0},
       draw_held_item = false,

@@ -1,3 +1,5 @@
+underground_splitter_lib = require("lib/lib-control")
+
 --====================================================================================================
 --REQUIREMENTS
 --====================================================================================================
@@ -46,6 +48,7 @@ function on_built_entity(e)
         return
     end
 
+    underground_splitter_lib.on_built_entity(e)
     -- todo: handle build event
 end
 
